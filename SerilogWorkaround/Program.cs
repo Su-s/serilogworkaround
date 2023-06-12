@@ -2,9 +2,14 @@ using Microsoft.AspNetCore.Identity;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Verbose()
     .Destructure.ByTransforming<IdentityUser>(u => new { u.Id, u.UserName })
     .CreateBootstrapLogger();
+
+
+var serilogSelfLogWriter =
+    File.CreateText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Logs",
+        "serilog.log"));
+Serilog.Debugging.SelfLog.Enable(msg => TextWriter.Synchronized(serilogSelfLogWriter));
 
 
 var builder = WebApplication.CreateBuilder(args);
