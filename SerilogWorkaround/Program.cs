@@ -14,6 +14,9 @@ Serilog.Debugging.SelfLog.Enable(msg => TextWriter.Synchronized(serilogSelfLogWr
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddHttpContextAccessor();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
